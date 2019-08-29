@@ -6,10 +6,8 @@ import Dashboard from 'pages/Dashboard';
 const RouteApp: React.FC = () => {
     return (
         <Router>
-            <div>
-                <Route path="/" exact component={Index} />
-                <Route path="/dashboard" component={Dashboard} />
-            </div>
+            <Route path="/" exact component={Index} />
+            <Route path="/dashboard" component={Dashboard} />
         </Router>
     )
 }
