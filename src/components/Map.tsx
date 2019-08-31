@@ -1,41 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MAP_ACCESS_TOKEN } from 'core/constants';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import { Driver, getDriverList, getClosestDriverListFromPoint, DriverDict, svg, svgHighlighted} from 'core/driversData';
+import { svg, svgHighlighted, svgPackage, svgFood } from 'core/mapSvg';
+import { getDriverList, getClosestDriverListFromOrder} from 'core/driversFunctions';
 
 const Map = ReactMapboxGl({
     accessToken: MAP_ACCESS_TOKEN
 });
 
-// Define layout to use in Layer component
-const layoutLayer = { 'icon-image': 'londonCycle' };
+const getLayerData = (name, svg) => {
+    const layout = { 'icon-image': name };    
+    const image = new Image();
+    image.src = `data:image/svg+xml;charset=utf-8;base64,${btoa(svg)}`;
+    const images: any = [name, image];
 
-// Create an image for the Layer
-const image = new Image();
-image.className="pulse-car";
-image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svg);
-const images: any = ['londonCycle', image];
+    return {
+        layout,
+        images
+    }
+}
 
-const image2 = new Image();
-image.className="pulse-car";
-image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(svgHighlighted);
-const images2: any = ['londonCycle', image2];
+const driverLayer = getLayerData('layoutLayerDrivers', svg);
+const driverHighligtedLayer = getLayerData('layoutLayerClosest', svgHighlighted);
+const packageLayer = getLayerData('layoutLayerPackage', svgPackage);
+const foodLayer = getLayerData('layoutLayerFood', svgFood);
 
-const MapApp: React.FC = () => {
+interface MapProps {
+    orderSelected: any
+}
+
+const MapApp: React.FC<MapProps>= ({orderSelected}) => {
     const drivers = getDriverList()
-    const closest = getClosestDriverListFromPoint(4)
-    console.log(closest)
+    const closest = getClosestDriverListFromOrder(orderSelected)
+    const [zoom, setZoom] = useState<number>(10);
+    const [center, setCenter] = useState<[number, number]>([-0.120973687, 51.53005939]);
+
+    useEffect(() => {
+        if (orderSelected) {
+            setZoom(16);
+            setCenter([orderSelected.long, orderSelected.lat]);
+        }
+      },[orderSelected]);
+
     return (
         <Map
-            style="mapbox://styles/mapbox/streets-v11"
-            center={[-0.120973687, 51.53005939]}
+            style="mapbox://styles/ickert/cjzzs2qxv1tk31crwwo7a75cw"
+            center={center}
+            zoom={[zoom]}
             containerStyle={{
                 height: '100%',
-                width: '100%'
+                width: '100%',
+                borderRadius: 4,
             }}
         >
-            <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
-            {closest.map((driver, index) => (
+            <Layer type="symbol" id="marker" {...driverLayer}>
+            {drivers.map((driver, index) => (
                 <Feature
                 key={driver.id}
                 // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
@@ -45,20 +64,47 @@ const MapApp: React.FC = () => {
                 />
             ))}
             </Layer>
-            {/* <Layer type="symbol" id="marker" layout={layoutLayer} images={images}>
-            {closest.map((driver, index) => (
-                <Feature
-                key={driver.id}
-                // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
-                // onMouseLeave={this.onToggleHover.bind(this, '')}
-                // onClick={this.markerClick.bind(this, stations[stationK])}
-                coordinates={driver.position}
-                />
-            ))}
-            </Layer> */}
-            {/* <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
-            <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-            </Layer> */}
+            {
+                !!closest.length && (
+                    <Layer type="symbol" id="markerHighlighted" {...driverHighligtedLayer}>
+                    {closest.map((driver, index) => (
+                        <Feature
+                        key={driver.id}
+                        // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+                        // onMouseLeave={this.onToggleHover.bind(this, '')}
+                        // onClick={this.markerClick.bind(this, stations[stationK])}
+                        coordinates={driver.position}
+                        />
+                    ))}
+                    </Layer>
+                )
+            }
+            {
+                orderSelected && orderSelected.type === 'package' && (
+                    <Layer type="symbol" id="markerPackage" {...packageLayer}>
+                        <Feature
+                            key={orderSelected.id}
+                            // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+                            // onMouseLeave={this.onToggleHover.bind(this, '')}
+                            // onClick={this.markerClick.bind(this, stations[stationK])}
+                            coordinates={orderSelected.position}
+                        />
+                    </Layer>
+                )
+            }
+            {
+                orderSelected && orderSelected.type === 'food' && (
+                    <Layer type="symbol" id="markerFood" {...foodLayer}>
+                        <Feature
+                            key={orderSelected.id}
+                            // onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+                            // onMouseLeave={this.onToggleHover.bind(this, '')}
+                            // onClick={this.markerClick.bind(this, stations[stationK])}
+                            coordinates={orderSelected.position}
+                        />
+                    </Layer>
+                )
+            }
         </Map>
     )
 }

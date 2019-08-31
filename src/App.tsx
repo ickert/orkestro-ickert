@@ -4,7 +4,7 @@ import RouteApp from 'core/RouteApp';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="App flexContainerColumn">
       <RouteApp />
     </div>
   );

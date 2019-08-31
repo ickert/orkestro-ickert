@@ -10,6 +10,10 @@ const Content = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    a {
+        color: #fff;
+    }
 `;
 
 const Index: React.FC = () => {
