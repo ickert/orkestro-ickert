@@ -53,14 +53,14 @@ const OrderList: React.FC<OrderListProps> = props => {
                                 <span><b>Name: </b>{order.name}</span>   
                                 <span className="caption">({order.type})</span>
                                 <span className="flex"/>
-                                <img src={order.type === 'package' ? `data:image/svg+xml;charset=utf-8;base64,${btoa(svgPackage)}` : `data:image/svg+xml;charset=utf-8;base64,${btoa(svgFood)}` } />
+                                <img alt="" title={order.type} src={order.type === 'package' ? `data:image/svg+xml;charset=utf-8;base64,${btoa(svgPackage)}` : `data:image/svg+xml;charset=utf-8;base64,${btoa(svgFood)}` } />
                             </div>
                             <div className="flexContainer">
                                 <span><b>PickupTime: </b>{moment(order.pickUpTime).format("HH:mm")}</span>
                                 <span className="caption">{order.packageSize}</span>
                             </div>
                             <div className="flexContainer">
-                                <span><b>PickupAddress: </b>{order.pickupAddress}</span>
+                                <span><b>PickupAddress: </b>{order.pickUpAddress}</span>
                             </div>
                         </OrderLine>
                     )
