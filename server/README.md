@@ -1,6 +1,6 @@
 This project was created to Software Engineer Exercise of Orkestro by Felipe Ickert
 
-## Available Scripts
+## Guide
 
 In order to see the project starting running:
 
@@ -43,3 +43,7 @@ POST METHODS:
 	"packageSize": "12 x 12"
 }
 ```
+
+## Comments
+
+The mongo db is hosted in [https://mlab.com], using my privet repository.
