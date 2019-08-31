@@ -1,22 +1,10 @@
 .App {
   text-align: center;
+  font-size: 14px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.h100 {
+  height: 100%;
 }
 
 .App-link {
@@ -48,11 +36,25 @@
   display: flex;
   flex-direction: column;
 }
+.flexContainerColumn {
+  display: flex;
+  flex-direction: column;
+}
 
 .flex {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+.flex2 {
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+.flex3 {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
 }
 .pulse-car {
   animation: pulse-car 2s infinite;
