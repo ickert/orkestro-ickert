@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Index from 'pages/Index';
+import Index from 'pages/Main';
 import Dashboard from 'pages/Dashboard';
 
 const RouteApp: React.FC = () => {

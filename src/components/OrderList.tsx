@@ -51,6 +51,7 @@ const OrderList: React.FC<OrderListProps> = props => {
                         <OrderLine key={order.id} onClick={() => props.setOrder(order)}>
                             <div className="flexContainer">
                                 <span><b>Name: </b>{order.name}</span>   
+                                <span className="caption">({order.type})</span>
                                 <span className="flex"/>
                                 <img src={order.type === 'package' ? `data:image/svg+xml;charset=utf-8;base64,${btoa(svgPackage)}` : `data:image/svg+xml;charset=utf-8;base64,${btoa(svgFood)}` } />
                             </div>

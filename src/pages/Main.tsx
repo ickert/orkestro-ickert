@@ -10,8 +10,8 @@ const Content = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
-    a {
+    
+    h1, a {
         color: #fff;
     }
 `;
@@ -19,7 +19,12 @@ const Content = styled.div`
 const Index: React.FC = () => {
     return (
         <Content>
-            <Link to="/dashboard">Enter to the Dashboard</Link>
+            <div>
+                <h1>
+                    Frontend Engineer Exercise - Felipe Ickert
+                </h1>
+                <Link to="/dashboard">Enter to the Dashboard</Link>
+            </div>
         </Content>
     )
 }
