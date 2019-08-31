@@ -10,6 +10,7 @@ const uri = `mongodb+srv://felipe:F6oKPTeaEgkfc6RU@cluster0-jftyz.mongodb.net/te
 const app = express();
 let db = null;
 app.use(bodyParser.json());
+
 MongoCliente.connect(uri,  { useNewUrlParser: true },  (err, client) => {
     if (err) return console.log(err);
     db = client.db('orkestro')
@@ -45,6 +46,10 @@ app.get('/driversMock', (req, res) => {
 
 app.post('/order', (req, res) => {
     const body = req.body;
+    if (!body) {
+        res.send('')
+        return;
+    }
     const oder = {
         id: uuidv1(),
         status: 'PENDING',
